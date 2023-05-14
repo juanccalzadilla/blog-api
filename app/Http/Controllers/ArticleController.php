@@ -28,7 +28,9 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         return response()->json([
-            'data' => new ArticleResource(Article::create($request->all())),
+            'data' => [
+                new ArticleResource(Article::create($request->all()))
+            ],
             'status' => 'success',
             'code' => 201,
             'message' => 'Article created successfully.'
@@ -41,7 +43,9 @@ class ArticleController extends Controller
     public function show(Article $article)
     {
         return response()->json([
-            'data' => new ArticleResource($article),
+            'data' => [
+                new ArticleResource($article)
+            ],
             'status' => 'success',
             'code' => 200,
             'message' => 'Article retrieved successfully.'
@@ -57,7 +61,9 @@ class ArticleController extends Controller
         $article->update($request->all());
         return response()->json(
             [
-                'data' => new ArticleResource($article),
+                'data' => [
+                    new ArticleResource($article)
+                ],
                 'status' => 'success',
                 'code' => 200,
                 'message' => 'Article updated successfully.'
@@ -73,7 +79,7 @@ class ArticleController extends Controller
         $article->delete();
         return response()->json(
             [
-                'data' => new ArticleResource($article),
+                'data' => [],
                 'status' => 'success',
                 'code' => 204,
                 'message' => 'Article deleted successfully.'
