@@ -24,6 +24,7 @@ Route::middleware('jwt.verify')->group(function(){
     Route::apiResource('articles', ArticleController::class)->except(['index', 'show']);
     Route::get('user', [UserController::class, 'getAuthUser']);
     Route::post('logout', [UserController::class, 'logout']);
+    Route::get('articles/user/{id}', [ArticleController::class, 'searchArticleByUser']);
 });
 
 //Public routes

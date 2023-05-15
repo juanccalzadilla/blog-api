@@ -106,4 +106,18 @@ class ArticleController extends Controller
             'message' => 'Articles retrieved successfully.'
         ]);
     }
+
+    /**
+     * Search for a USER.
+     */
+
+    public function searchArticleByUser($id)
+    {
+        return response()->json([
+            'data' => new ArticleCollection(Article::where('user_id', $id)->get()),
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Articles retrieved successfully.'
+        ]);
+    }
 }

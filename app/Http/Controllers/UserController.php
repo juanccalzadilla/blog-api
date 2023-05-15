@@ -109,4 +109,14 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+
+    public function articles(){
+        $articles = auth()->user()->articles;
+        return response()->json([
+            'status' => 'success',
+            'data' => $articles,
+            'code' => 200
+        ], 200);
+    }
 }
