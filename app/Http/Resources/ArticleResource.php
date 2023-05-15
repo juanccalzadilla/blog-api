@@ -18,6 +18,8 @@ class ArticleResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body'  => $this->body,
+            'user' => $this->user,
+            'comments' => $this->comments,
         ];
     }
 }

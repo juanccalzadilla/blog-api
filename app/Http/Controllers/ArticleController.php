@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use Attribute;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -27,9 +28,13 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $article = new Article($request->all());
+        $article->user_id = auth()->user()->id;
+        $article->save();
+
         return response()->json([
             'data' => [
-                new ArticleResource(Article::create($request->all()))
+                new ArticleResource(  $article  )
             ],
             'status' => 'success',
             'code' => 201,
@@ -44,7 +49,7 @@ class ArticleController extends Controller
     {
         return response()->json([
             'data' => [
-                new ArticleResource($article)
+                new ArticleResource($article),
             ],
             'status' => 'success',
             'code' => 200,

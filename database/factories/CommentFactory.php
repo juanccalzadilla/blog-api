@@ -1,12 +1,13 @@
 <?php
 
 namespace Database\Factories;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Article>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class ArticleFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,9 +17,9 @@ class ArticleFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake('es_ES')->sentence(),
-            'body' => fake('es_ES')->paragraph(),
-            'user_id' => fake()->numberBetween(1, 10)
+            'content' => fake()->paragraph(),
+            'user_id' => fake()->numberBetween(1, 10),
+            'article_id' => fake()->numberBetween(1, 10)
         ];
     }
 }
