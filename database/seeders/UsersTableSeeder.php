@@ -24,4 +24,5 @@ class UsersTableSeeder extends Seeder
 
         User::factory(10)->create();
     }
+
 }

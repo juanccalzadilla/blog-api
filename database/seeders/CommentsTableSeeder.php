@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Article;
+use App\Models\Comment;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ArticlesTableSeeder extends Seeder
+class CommentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // Article::truncate();
-        Article::factory(10)->create();
+        Comment::factory(100)->create();
     }
 }
