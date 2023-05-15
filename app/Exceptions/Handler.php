@@ -33,7 +33,8 @@ class Handler extends ExceptionHandler
                     'data' => null,
                     'status' => 'error',
                     'code' => 404,
-                    'message' => 'Resource not found. Please check your request and try again.'
+                    'message' => 'Resource not found. Please check your request and try again.',
+                    'developer_message' => $e->getMessage(),
                 ], 404);
             }
         });
