@@ -12,7 +12,7 @@ class ArticlesTableSeeder extends Seeder
      */
     public function run(): void
     {
-        // Article::truncate();
+        Article::truncate();
         Article::factory(10)->create();
     }
 }
