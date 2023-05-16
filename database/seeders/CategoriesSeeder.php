@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comment;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CommentsTableSeeder extends Seeder
+class CategoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Comment::truncate();
-        Comment::factory(100)->create();
+        Category::factory(3)->create();
     }
 }

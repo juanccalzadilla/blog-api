@@ -18,7 +18,8 @@ class ArticleFactory extends Factory
         return [
             'title' => fake('es_ES')->sentence(),
             'body' => fake('es_ES')->paragraph(),
-            'user_id' => fake()->numberBetween(1, 10)
+            'user_id' => fake()->numberBetween(1, 10),
+            'category_id' => fake()->numberBetween(1, 3),
         ];
     }
 }
