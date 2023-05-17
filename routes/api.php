@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::middleware('jwt.verify')->group(function(){
     Route::get('user', [UserController::class, 'getAuthUser']);
     Route::post('logout', [UserController::class, 'logout']);
     Route::get('articles/user/{id}', [ArticleController::class, 'searchArticleByUser']);
+    Route::apiResource('articles.comments', CommentController::class);
 });
 
 //Public routes
