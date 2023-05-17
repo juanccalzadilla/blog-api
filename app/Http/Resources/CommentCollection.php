@@ -14,14 +14,6 @@ class CommentCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return [
-            'data' => $this->collection->transform(function ($comment) {
-                return [
-                    'id' => $comment->id,
-                    'content' => $comment->content,
-                    'user' => UserResource::make($comment->user),
-                ];
-            }),
-        ];
+        return parent::toArray($request);
     }
 }
