@@ -15,8 +15,16 @@ class ArticleController extends Controller
      */
     public function index()
     {
+        $articles = Article::paginate(1);
         return response()->json([
-            'data' => new ArticleCollection(Article::all()),
+            'data' => new ArticleCollection($articles),
+            'links' => $articles->toArray()['links'],
+            'meta' => [
+                'total' => $articles->toArray()['total'],
+                'count' => $articles->toArray()['per_page'],
+                'current_page' => $articles->toArray()['current_page'],
+                'total_pages' => $articles->toArray()['last_page'],
+            ],
             'status' => 'success',
             'code' => 200,
             'message' => 'Articles retrieved successfully.'
@@ -34,7 +42,7 @@ class ArticleController extends Controller
 
         return response()->json([
             'data' => [
-                new ArticleResource(  $article  )
+                new ArticleResource($article)
             ],
             'status' => 'success',
             'code' => 201,

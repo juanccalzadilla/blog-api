@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -89,7 +90,11 @@ class UserController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], 401);
         }
-        return response()->json(compact('user'));
+        return response()->json([
+            'status' => 'success',
+            'data' => new UserResource($user),
+            'code' => 200
+        ], 200);
     }
 
     public function logout()
