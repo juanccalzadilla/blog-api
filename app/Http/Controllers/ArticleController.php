@@ -15,12 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'data' => new ArticleCollection(Article::all()),
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::paginate(2));
     }
 
     /**
@@ -34,7 +29,7 @@ class ArticleController extends Controller
 
         return response()->json([
             'data' => [
-                new ArticleResource(  $article  )
+                new ArticleResource($article)
             ],
             'status' => 'success',
             'code' => 201,
@@ -99,12 +94,7 @@ class ArticleController extends Controller
 
     public function search($name)
     {
-        return response()->json([
-            'data' => new ArticleCollection(Article::where('title', 'like', '%' . $name . '%')->get()),
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::where('title', 'like', '%' . $name . '%')->get());
     }
 
     /**
@@ -113,11 +103,6 @@ class ArticleController extends Controller
 
     public function searchArticleByUser($id)
     {
-        return response()->json([
-            'data' => new ArticleCollection(Article::where('user_id', $id)->get()),
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::where('user_id', $id)->get());
     }
 }

@@ -14,6 +14,11 @@ class ArticleCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+            'status' => 'success',
+            'code' => 200,
+            'message' => 'Articles retrieved successfully.'
+        ];
     }
 }
