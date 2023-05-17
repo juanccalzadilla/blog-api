@@ -15,20 +15,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(1);
-        return response()->json([
-            'data' => new ArticleCollection($articles),
-            'links' => $articles->toArray()['links'],
-            'meta' => [
-                'total' => $articles->toArray()['total'],
-                'count' => $articles->toArray()['per_page'],
-                'current_page' => $articles->toArray()['current_page'],
-                'total_pages' => $articles->toArray()['last_page'],
-            ],
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::paginate(2));
     }
 
     /**
@@ -107,12 +94,7 @@ class ArticleController extends Controller
 
     public function search($name)
     {
-        return response()->json([
-            'data' => new ArticleCollection(Article::where('title', 'like', '%' . $name . '%')->get()),
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::where('title', 'like', '%' . $name . '%')->get());
     }
 
     /**
@@ -121,11 +103,6 @@ class ArticleController extends Controller
 
     public function searchArticleByUser($id)
     {
-        return response()->json([
-            'data' => new ArticleCollection(Article::where('user_id', $id)->get()),
-            'status' => 'success',
-            'code' => 200,
-            'message' => 'Articles retrieved successfully.'
-        ]);
+        return new ArticleCollection(Article::where('user_id', $id)->get());
     }
 }
