@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function PHPSTORM_META\map;
+
 class Article extends Model
 {
     use HasFactory;
@@ -12,7 +14,8 @@ class Article extends Model
     protected $fillable = [
         'title',
         'body',
-        'category_id'
+        'category_id',
+        'image'
     ];
 
     public function comments()

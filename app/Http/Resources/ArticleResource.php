@@ -19,6 +19,7 @@ class ArticleResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body'  => $this->body,
+            'image' => $this->image,
             'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'category'=> $this->category->name ?? null,
             'user' => UserResource::make($this->user),

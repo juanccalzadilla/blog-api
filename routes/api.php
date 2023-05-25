@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 //Private routes
 Route::middleware('jwt.verify')->group(function(){
-    Route::apiResource('articles', ArticleController::class)->except(['index', 'show']);
+    Route::apiResource('articles', ArticleController::class)->except(['index','show']);
     Route::get('user', [UserController::class, 'getAuthUser']);
     Route::post('logout', [UserController::class, 'logout']);
     Route::get('articles/user/{id}', [ArticleController::class, 'searchArticleByUser']);
@@ -37,4 +37,6 @@ Route::post('register', [UserController::class, 'register']);
 Route::get('articles', [ArticleController::class, 'index']);
 Route::get('articles/{article}', [ArticleController::class, 'show']);
 Route::get('articles/search/{name}', [ArticleController::class, 'search']);
+Route::get('articles/{article}/image', [ArticleController::class, 'getImage']);
+    // - Comment routes
 

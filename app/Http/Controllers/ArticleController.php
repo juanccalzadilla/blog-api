@@ -6,6 +6,7 @@ use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
@@ -22,12 +23,19 @@ class ArticleController extends Controller
         'category_id.required' => 'El campo category_id es requerido.',
         'category_id.integer' => 'El campo category_id debe ser un entero.',
         'category_id.exists' => 'El campo category_id debe existir en la tabla categories.',
+        'image.required' => 'El campo image es requerido.',
+        'image.image' => 'El campo image debe ser una imagen.',
+        'image.mimes' => 'El campo image debe ser una imagen de tipo: jpeg, png, jpg, gif, svg.',
+        'image.max' => 'El campo image debe tener maximo 2mb.',
+        'image.dimensions' => 'El campo image debe tener minimo 100x100 pixeles.'
+
     ];
 
     private static $rules = [
         'title' => 'required|string|max:255|unique:articles',
         'body' => 'required|string',
-        'category_id' => 'required|integer|exists:categories,id'
+        'category_id' => 'required|integer|exists:categories,id',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:min_width=100,min_height=100'
     ];
 
     /**
@@ -50,7 +58,11 @@ class ArticleController extends Controller
         }
 
         $article = new Article($request->all());
+        $path = $request->image->store('public/articles');
         $article->user_id = auth()->user()->id;
+        // $path = $request->image->storeAs('public/articles', $request->user_id . '_' . $request->title . '.' . $request->image->extension());
+
+        $article->image = $path;
         $article->save();
 
         return response()->json([
@@ -130,5 +142,14 @@ class ArticleController extends Controller
     public function searchArticleByUser($id)
     {
         return new ArticleCollection(Article::where('user_id', $id)->get());
+    }
+
+    /**
+     * Get Article Image.
+     */
+
+    public function getImage(Article $article)
+    {
+        return response()->download(public_path(Storage::url($article->image)), $article->title);
     }
 }
