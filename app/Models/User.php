@@ -28,6 +28,30 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The roles that are available.
+     *
+     * @var array<string, array<string>>
+     */
+
+    const ROLE_SUPERADMIN = 'SUPERADMIN';
+    const ROLE_ADMIN = 'ADMIN';
+    const ROLE_USER = 'USER';
+
+    //V1
+    // const ROLES_HIERARCHY = [
+    //     self::ROLE_SUPERADMIN => [self::ROLE_ADMIN],
+    //     self::ROLE_ADMIN => [self::ROLE_USER],
+    //     self::ROLE_USER => []
+    // ];
+
+    //V2
+    const ROLES_HIERARCHY = [
+        self::ROLE_SUPERADMIN => [self::ROLE_ADMIN],
+        self::ROLE_ADMIN => [self::ROLE_USER],
+        self::ROLE_USER => []
+    ];
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -46,13 +70,14 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-   
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed
      */
-    public function getJWTIdentifier(){
+    public function getJWTIdentifier()
+    {
         return $this->getKey();
     }
 
@@ -61,19 +86,55 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims(){
+    public function getJWTCustomClaims()
+    {
         return [];
     }
 
-    public function articles () {
+    public function articles()
+    {
         return $this->hasMany(Article::class);
     }
 
-    public function comments () {
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
 
-    public function categories () {
+    public function categories()
+    {
         return $this->belongsToMany(Category::class)->as('subscriptions')->withTimestamps();
+    }
+
+    //V1
+    // public function isGranted($role){
+    //     return $role === $this->role || in_array($role, self::ROLES_HIERARCHY[$this->role]);
+    // }
+
+    //V2
+    public function isGranted($role)
+    {
+        
+        if ($role === $this->role) {
+            return true;
+        }
+
+        return self::isRoleInHierarchy($role, self::ROLES_HIERARCHY[$this->role]);
+    }
+
+    public static function isRoleInHierarchy($role, $hierarchy)
+    {
+
+        if (in_array($role, $hierarchy)) {
+            return true;
+        }
+
+        foreach ($hierarchy as $role_included) {
+            if (self::isRoleInHierarchy($role, self::ROLES_HIERARCHY[$role_included])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

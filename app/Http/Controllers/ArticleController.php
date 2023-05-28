@@ -51,6 +51,7 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Article::class);
         $validate = Validator::make($request->all(), self::$rules, self::$messages);
 
         if ($validate->fails()) {
@@ -95,6 +96,7 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
+        $this->authorize('update', $article);
         $article = Article::find($article->id);
         $article->update($request->all());
         return response()->json(
@@ -114,6 +116,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        $this->authorize('delete', $article);
         $article->delete();
         return response()->json(
             [
