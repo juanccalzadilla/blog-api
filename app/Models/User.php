@@ -33,9 +33,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<string, array<string>>
      */
 
-    const ROLE_SUPERADMIN = 'SUPERADMIN';
-    const ROLE_ADMIN = 'ADMIN';
-    const ROLE_USER = 'USER';
+    const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+    const ROLE_USER = 'ROLE_USER';
 
     //V1
     // const ROLES_HIERARCHY = [
@@ -136,5 +136,10 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return false;
+    }
+
+    public function userable()
+    {
+        return $this->morphTo();
     }
 }
