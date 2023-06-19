@@ -20,6 +20,7 @@ class ArticleFactory extends Factory
             'body' => fake('es_ES')->paragraph(),
             'user_id' => fake()->numberBetween(1, 10),
             'category_id' => fake()->numberBetween(1, 3),
+            'image' => 'https://picsum.photos/1200/400?random=1',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Models\Writer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -46,6 +47,8 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'editorial' => 'required|string',
+            'short_bio' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -57,18 +60,23 @@ class UserController extends Controller
             ], 400);
         }
 
-        $user = User::create(array_merge(
+        $writer = Writer::create([
+            'editorial' => $request->editorial,
+            'short_bio' => $request->short_bio,
+        ]);
+
+        $writer->user()->create(array_merge(
             $validator->validated(),
             ['password' => bcrypt($request->password)]
         ));
 
-        $token = JWTAuth::fromUser($user);
+        $token = JWTAuth::fromUser($writer->user);
 
         return response()->json(
             [
                 'status' => 'success',
                 'data' => [
-                    'user' => $user,
+                    'user' => UserResource::make($writer->user),
                     'token' => $token
                 ],
                 'code' => 201
