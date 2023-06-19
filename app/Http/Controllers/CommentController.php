@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
+use App\Mail\NewComment;
 use App\Models\Article;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -54,6 +56,14 @@ class CommentController extends Controller
         $comment = new Comment($request->all());
         $comment->user_id = auth()->user()->id;
         $article->comments()->save($comment);
+
+        // Mail::to($article->user)->send(new NewComment($comment));
+        // Mail::to($article->user)->later(now()->addMinutes(1), new NewComment($comment));
+        Mail::to($article->user)->queue(new NewComment($comment));
+        
+
+
+        
         return response()->json(
             [
                 'data' => CommentResource::make($comment),
